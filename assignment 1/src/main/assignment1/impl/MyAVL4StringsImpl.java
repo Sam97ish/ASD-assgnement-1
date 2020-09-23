@@ -142,9 +142,19 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		}
 	}
 	
+	//prints out the whole tree using inorder traversal.
+	private void printPostOrder(AVLNode root) {
+		if(root != null) {
+			printInOrder(root.left);
+			printInOrder(root.right);
+			System.out.println(root.element);
+		}
+	}
+	
 	//printing out the tree using the specified traversal.
 	public void printTree() {
 		printInOrder(root);
+		//printPostOrder(root);
 	}
 	
     @Override

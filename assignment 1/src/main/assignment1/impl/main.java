@@ -5,6 +5,7 @@ public class main {
 	public static void main(String[] args) {
 		MyAVL4StringsImpl AVLtree = new MyAVL4StringsImpl();
 		
+		//testing the insert functionality.
 		/*
 		System.out.println("this should perform left double rotation: expected inorder traversal : B C D E S");
 		AVLtree.insert("E"); // should be root
@@ -47,6 +48,23 @@ public class main {
 		AVLtree.insert("X"); //should be right
 		
 		AVLtree.printTree();
+		*/
+		
+		/*
+		//testing the list implementation.
+		MyListImpl<String> mylist = new MyListImpl<String>();
+		
+		mylist.add("hi");
+		System.out.println(mylist.get(0));
+		
+		mylist.add("hello there");
+		System.out.println(mylist.size());
+		
+		System.out.println(mylist.get(mylist.size()-1));
+		
+		MyListImpl<MyListImpl<String>> mylistlist = new MyListImpl<MyListImpl<String>>();
+		mylistlist.add(mylist);
+		System.out.println(mylistlist.get(0).get(0));
 		*/
 	}
 
