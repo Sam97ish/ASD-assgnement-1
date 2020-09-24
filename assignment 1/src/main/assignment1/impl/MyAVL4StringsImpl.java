@@ -24,7 +24,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		AVLNode right; //right subtree.
 		AVLNode parent; //this ref helps to keep the last method at O(n).
 		int height; //height of a node.
-		int depth; //depth of the node.
 		
 		//Constructor
 		AVLNode(String elm){
@@ -33,7 +32,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		
 		//Constructor
 		AVLNode(String elm, AVLNode lt, AVLNode rt){
-			element = elm; left = lt; right = rt; height = 0; parent = null; depth = 0;
+			element = elm; left = lt; right = rt; height = 0; parent = null;
 		}
 		
 
@@ -44,10 +43,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		return t==null ? -1 : t.height;
 	}
 	
-	private int depth(AVLNode t) {
-		return t==null ? -1 : t.depth;
-	}
-	
+
 	//left-left single rotation.
 	private AVLNode rotateWithLeftChild(AVLNode node) {
 		AVLNode leftChild = node.left;
@@ -59,6 +55,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		
 		node.height = Math.max(height(node.left), height(node.right)) + 1;
 		leftChild.height = Math.max(height(leftChild.left), node.height) +1;
+		
 		
 		return leftChild;
 	}
@@ -74,6 +71,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		
 		node.height = Math.max(height(node.left), height(node.right)) + 1;
 		RightChild.height = Math.max(node.height, height(RightChild.right)) +1;
+
 		
 		return RightChild;
 	}
@@ -141,7 +139,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 			
 			node.left.parent = node;
 			
-			node.left.depth = node.depth + 1;
 			
 			if(leftmostsubtree && node.left.left == null && node.left.right == null) {//this is the leftmostNode
 				
@@ -154,7 +151,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 			
 			node.right.parent = node;
 			
-			node.right.depth = node.depth + 1;
+
 		}else {
 			
 			; //duplicate do nothing.
@@ -209,17 +206,18 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		return parents;
 	}
 	
+	
 	//printing out the tree using the specified traversal.
 	public void printTree() {
 		printInOrder(root);
 		//printPostOrder(root);
 	}
 	
-    @Override
     /*
      * @role: inserts element into the AVL tree and rebalances if necessary.
      * @complexity : O(logN). because the height of the Avl tree is LogN.
      */
+    @Override
     public void insert(String element) {
 	// TODO Auto-generated method stub
     	this.root = insert(element,root);
@@ -231,20 +229,20 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 	return null;
     }
     
-    private void iterateSubtree(AVLNode Node, MyList<MyList<String>> listOflists) {
+    private void iterateSubtree(AVLNode Node, MyList<MyList<String>> listOflists, int depthOflevel) {
     	
     	if(Node != null) {
     		
-    		//System.out.println("about to add the right subtree : " + Node.element + " at depth : " + depth(Node));
+    		//System.out.println("about to add the right subtree : " + Node.element);
     		
-    		 listOflists.get(depth(Node)).add(Node.element);
+    		 listOflists.get(depthOflevel).add(Node.element);
     		 
     		 if(Node.left != null) {
-    			iterateSubtree(Node.left, listOflists);
+    			iterateSubtree(Node.left, listOflists, depthOflevel + 1);
     		 }
     		 
     		if(Node.right != null) {
-    			iterateSubtree(Node.right, listOflists);
+    			iterateSubtree(Node.right, listOflists, depthOflevel + 1);
     		}
     		
     		
@@ -253,26 +251,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
     }
     
-    /*
-    private void iterateLeftSubtree(AVLNode Node, MyListImpl<MyListImpl<String>> listOflists) {
-    	
-    	if(Node != null) {
-    		
-    		listOflists.get(depth(Node)).add(Node.element);
-    		
-   		 	if(Node.left != null) {
-   		 		iterateLeftSubtree(Node.left, listOflists);
-   		 	}
-   		 
-   		 	if(Node.right != null) {
-   		 		iterateRightSubtree(Node.right, listOflists);
-   		 	}
-   		 	
-   		 	
-    	}
-    	
-    }
-    */
     
     @Override
     public MyList<MyList<String>> LevelByLevelLists() {
@@ -293,20 +271,22 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	AVLNode treeIter = this.root;
     	//root.parent = null;
     	
+    	System.out.println("The root is  : " + treeIter.element);
+    	
+    	int depthOflevel = 0;
     	
     	if(treeIter != null) {
     		
     		//System.out.println("treeIter is now on: " + treeIter.element);
-    		//System.out.println("trying to store it in it's depth now : " + treeIter.depth);
     		
-    		listOflists.get(depth(treeIter)).add(treeIter.element);
+    		listOflists.get(depthOflevel).add(treeIter.element);
     		
     		if(treeIter.left != null) {
-    			iterateSubtree(treeIter.left, listOflists);
+    			iterateSubtree(treeIter.left, listOflists, depthOflevel + 1);
     		}
     		
     		if(treeIter.right != null) {
-    			iterateSubtree(treeIter.right, listOflists);
+    			iterateSubtree(treeIter.right, listOflists, depthOflevel + 1);
     		}
     		
     		

@@ -8,49 +8,42 @@ public class main {
 		
 		MyAVL4StringsImpl AVLtree = new MyAVL4StringsImpl();
 		
-		//testing the insert functionality.
 		
+		//testing the insert functionality.
+		/*
 		System.out.println("this should perform left double rotation: expected inorder traversal : B C D E S");
 		AVLtree.insert("E"); //should be root
 		AVLtree.insert("S"); //should be right
+		//AVLtree.insert("G"); //this will change the tree dramatically. it becomes // B C D E G S
 		AVLtree.insert("D"); //should be left
 		AVLtree.insert("B"); //should be left
 		AVLtree.insert("C"); //should be right (of B)
+		
 		
 		AVLtree.printTree();
 		
 		System.out.println("the leftmostnode is : " + AVLtree.getLeftMostNode());
 		System.out.println("the parents of leftmostnode are : " + AVLtree.getParentLeftMostNode());
 		
-		/*
-		MyListImpl<MyListImpl<String>> listOflists = new MyListImpl<MyListImpl<String>>();
-    	
-    	for(int i = 0; i < 5; i++) {
-    		listOflists.add(new MyListImpl<String>());
-    	}
-    	
-    	listOflists.get(0).add("yes");
-    	
-    	System.out.println(listOflists.get(0).get(0));
-    	*/
-		
-		
+				
 		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
 		
 		for(int i = 0; i < mylistlist.size(); i++) {
 			
 			MyList<String> mylisty = mylistlist.get(i);
 			
-			System.out.println("The Elements of level : " + i + " are : ");
+			System.out.println("\n");
+			System.out.println("The Elements of level  " + i + " are : ");
 			
 			for(int k = 0; k < mylisty.size(); k++) {
 			
-				System.out.println("Element at index : " + k + " is : " + mylisty.get(k));
+				System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
 			
 			}
 			
 		}
 		
+		*/
 		
 		/*
 		System.out.println("this should perform left single rotation: expected inorder traversal : A B D E S");
@@ -64,6 +57,23 @@ public class main {
 		
 		System.out.println("the leftmostnode is : " + AVLtree.getLeftMostNode());
 		System.out.println("the parents of leftmostnode are : " + AVLtree.getParentLeftMostNode());
+		
+		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
+		
+		for(int i = 0; i < mylistlist.size(); i++) {
+			
+			MyList<String> mylisty = mylistlist.get(i);
+			
+			System.out.println("\n");
+			System.out.println("The Elements of level  " + i + " are : ");
+			
+			for(int k = 0; k < mylisty.size(); k++) {
+			
+				System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
+			
+			}
+			
+		}
 		*/
 		
 		/*
@@ -78,6 +88,24 @@ public class main {
 		
 		System.out.println("the leftmostnode is : " + AVLtree.getLeftMostNode());
 		System.out.println("the parents of leftmostnode are : " + AVLtree.getParentLeftMostNode());
+		
+		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
+		
+		for(int i = 0; i < mylistlist.size(); i++) {
+			
+			MyList<String> mylisty = mylistlist.get(i);
+			
+			System.out.println("\n");
+			System.out.println("The Elements of level  " + i + " are : ");
+			
+			for(int k = 0; k < mylisty.size(); k++) {
+			
+				System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
+			
+			}
+			
+		}
+		
 		*/
 		
 		/*
@@ -93,11 +121,29 @@ public class main {
 		
 		System.out.println("the leftmostnode is : " + AVLtree.getLeftMostNode());
 		System.out.println("the parents of leftmostnode are : " + AVLtree.getParentLeftMostNode());
+		
+		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
+		
+		for(int i = 0; i < mylistlist.size(); i++) {
+			
+			MyList<String> mylisty = mylistlist.get(i);
+			
+			System.out.println("\n");
+			System.out.println("The Elements of level  " + i + " are : ");
+			
+			for(int k = 0; k < mylisty.size(); k++) {
+			
+				System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
+			
+			}
+			
+		}
 		*/
 		
-		/*
+		
 		//testing the list implementation.
-		MyListImpl<String> mylist = new MyListImpl<String>();
+		/*
+		MyList<String> mylist = new MyListImpl<String>();
 		
 		mylist.add("hi");
 		System.out.println(mylist.get(0));
@@ -107,7 +153,7 @@ public class main {
 		
 		System.out.println(mylist.get(mylist.size()-1));
 		
-		MyListImpl<MyListImpl<String>> mylistlist = new MyListImpl<MyListImpl<String>>();
+		MyList<MyList<String>> mylistlist = new MyListImpl<MyList<String>>();
 		mylistlist.add(mylist);
 		mylistlist.get(0).add("will this work?");
 		System.out.println(mylistlist.get(0).get(2));
