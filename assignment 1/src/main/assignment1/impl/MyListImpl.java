@@ -11,10 +11,12 @@ public class MyListImpl<E> implements MyList<E> {
 	public MyListImpl() {
 		super();
 		this.capacity = 50;
-		this.array = (E[]) new Object[this.capacity]; //Java is being java here.
+		this.array = (E[]) new Object[this.capacity]; //Java is being Java here, no wonder C++ is superior smh.
 		this.size = 0;
 	}
 	
+	
+
 	public MyListImpl(E[] array, int size, int capacity) {
 		super();
 		this.array = array;
@@ -34,6 +36,7 @@ public class MyListImpl<E> implements MyList<E> {
 		return this.size;
 	}
 	
+	@Override
 	public void add(E elm) {
 		this.array[this.size] = elm;
 		size++;

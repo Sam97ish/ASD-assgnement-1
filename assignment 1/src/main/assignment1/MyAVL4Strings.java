@@ -1,5 +1,7 @@
 package main.assignment1;
 
+import main.assignment1.impl.MyListImpl;
+
 public interface MyAVL4Strings {
 
     public void insert(String element); //Insertion in AVL operation seen during the lectures.
