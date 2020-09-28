@@ -9,12 +9,12 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 	private static final int ALLOWED_IMBALANCE = 1;
 	private AVLNode root;
 	
-	private AVLNode leftMostNode;
-	private boolean leftmostsubtree;//this is used to make sure that right double rotation doesnt mess up leftmostnode. 
+	private static final int capacity = 500; //for the last method only
+	
 	
 	//Constructor
 	public MyAVL4StringsImpl(){
-		root = null; leftMostNode = null; leftmostsubtree = true;
+		root = null;
 	}
 	
 	private static class AVLNode{
@@ -22,7 +22,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		String element; //the data.
 		AVLNode left; //left subtree.
 		AVLNode right; //right subtree.
-		AVLNode parent; //this ref helps to keep the last method at O(n).
 		int height; //height of a node.
 		
 		//Constructor
@@ -32,7 +31,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		
 		//Constructor
 		AVLNode(String elm, AVLNode lt, AVLNode rt){
-			element = elm; left = lt; right = rt; height = 0; parent = null;
+			element = elm; left = lt; right = rt; height = 0;
 		}
 		
 
@@ -50,8 +49,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		node.left = leftChild.right;
 		leftChild.right = node;
 		
-		leftChild.parent = node.parent;
-		node.parent = leftChild;
 		
 		node.height = Math.max(height(node.left), height(node.right)) + 1;
 		leftChild.height = Math.max(height(leftChild.left), node.height) +1;
@@ -66,8 +63,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		node.right = RightChild.left;
 		RightChild.left = node;
 		
-		RightChild.parent = node.parent;
-		node.parent = RightChild;
 		
 		node.height = Math.max(height(node.left), height(node.right)) + 1;
 		RightChild.height = Math.max(node.height, height(RightChild.right)) +1;
@@ -137,19 +132,9 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		if(compareResult < 0) {
 			node.left = insert(elm,node.left);
 			
-			node.left.parent = node;
-			
-			
-			if(leftmostsubtree && node.left.left == null && node.left.right == null) {//this is the leftmostNode
-				
-				this.leftMostNode = node.left;
-			}
 			
 		}else if(compareResult > 0) {
-			leftmostsubtree = false;
 			node.right = insert(elm,node.right);
-			
-			node.right.parent = node;
 			
 
 		}else {
@@ -157,7 +142,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 			; //duplicate do nothing.
 			
 		}
-		leftmostsubtree = true;
+
 		return balance(node);
 	}
 	
@@ -179,34 +164,6 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		}
 	}
 	
-	//returns the leftmostnode for debugging purposes.
-	public String getLeftMostNode() {
-		if(this.leftMostNode != null) {
-			return this.leftMostNode.element;
-		}
-		return null;
-	}
-	
-	public int getHeightLeftMostNode() {
-		if(this.leftMostNode != null) {
-			return this.leftMostNode.height;
-		}
-		return -1;
-	}
-	
-	public String getParentLeftMostNode() {
-		String parents = "";
-		AVLNode tmp = this.leftMostNode.parent;
-		
-		while(tmp != null) {
-			parents += tmp.element;
-			tmp = tmp.parent;
-		}
-		
-		return parents;
-	}
-	
-	
 	//printing out the tree using the specified traversal.
 	public void printTree() {
 		printInOrder(root);
@@ -223,17 +180,153 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	this.root = insert(element,root);
     }
 
+    private void searchMinMax(Couple<String> minMax, AVLNode left, AVLNode right, String beginning) {
+    	
+    	if(left != null){
+    		
+    		int diff = left.element.compareTo(beginning);
+    		
+    		if(left.element.startsWith(beginning)) {
+    			
+    			if(diff == 0) {//this is the min.
+    				
+    				minMax.setFirst(left.element);
+    				
+    			}else if(diff > 0) {
+    				
+    				int diff2 = left.element.compareTo(minMax.getFirst());
+    				int diff3 = left.element.compareTo(minMax.getLast());
+    				
+    				if(diff2 < 0 || minMax.getFirst().equals("")) {//must switch the current min with the new min.
+    					minMax.setFirst(left.element);
+    				}
+    				
+    				if(diff3 > 0 || minMax.getLast().equals("")) {//must switch the current max with the new max.
+    					minMax.setLast(left.element);
+    				}
+    				
+    				//continue to the left.
+    				searchMinMax(minMax, left.left, null, beginning);
+    				
+    			}
+    			
+    		}else {
+    			
+        		if(diff > 0) {// go to the left subtree because node is bigger than beginning.
+        			
+        			searchMinMax(minMax, left.left, null, beginning);
+        			
+        		}else if(diff < 0) {//go to right subtree because node is smaller than beginning.
+        			
+        			searchMinMax(minMax, null, left.right, beginning);
+        			
+        		}
+    			
+    		}
+    		
+    	}
+    	
+    	if(right != null) {
+    		
+    		int diff = right.element.compareTo(beginning);
+    		
+    		if(right.element.startsWith(beginning)) {
+    			
+    			if(diff == 0) {//this is the min.
+    				
+    				minMax.setFirst(right.element);
+    				
+    			}else if(diff > 0) {
+    				
+    				int diff2 = right.element.compareTo(minMax.getLast());
+    				int diff3 = right.element.compareTo(minMax.getFirst());
+    				
+    				if(diff2 > 0 || minMax.getLast().equals("")) {//must switch the current max with the new max.
+    					minMax.setLast(right.element);
+    				}
+    				
+    				if(diff3 < 0 || minMax.getFirst().equals("")) {//must switch the current min with the new min.
+    					minMax.setFirst(right.element);
+    				}
+    				
+    				//continue to the right.
+    				searchMinMax(minMax, right.right, null, beginning);
+    				
+    			}
+    			
+    		}else {
+    			
+        		if(diff > 0) {// go to the left subtree because node is bigger than beginning.
+        			
+        			searchMinMax(minMax, right.left, null, beginning);
+        			
+        		}else if(diff < 0) {//go to right subtree because node is smaller than beginning.
+        			
+        			searchMinMax(minMax, null, right.right, beginning);
+        			
+        		}
+    			
+    		}
+    		
+    	}
+    	
+    }
+    
     @Override
     public Couple<String> partialSearch(String beginning) {
 	// TODO Auto-generated method stub
-	return null;
+    	
+    	Couple<String> minMax = new CoupleImpl<String>();
+    	minMax.setFirst(""); minMax.setLast("");
+    	
+    	//start by comparing input to root.
+    	int diff = this.root.element.compareTo(beginning);
+    	if(this.root.element.startsWith(beginning)) { //we can use the diff instead, but we have to make sure that it starts with beginning.
+    		
+    		
+    		if(diff == 0) {//this is the min.
+    			
+    			minMax.setFirst(this.root.element);
+    			searchMinMax(minMax, null, this.root.right, beginning); //found the min, looking for the max.
+    		
+    		}
+    		
+    		if(diff > 0) { //root element is a possible min and max.
+    			
+    			minMax.setLast(this.root.element);
+    			minMax.setFirst(this.root.element);
+    			
+    			searchMinMax(minMax, this.root.left, this.root.right, beginning);
+    		}
+    		
+    	}else { //doesn't begin with beginning.
+    		
+    		
+    		if(diff > 0) {// go to the left subtree because root is bigger than beginning.
+    			
+    			searchMinMax(minMax, this.root.left, null, beginning);
+    			
+    		}else if(diff < 0) {//go to right subtree because root is smaller than beginning.
+    			
+    			searchMinMax(minMax, null, this.root.right, beginning);
+    			
+    		}
+    		
+    	}
+    	
+    	if(minMax.getFirst().equals("") && minMax.getLast().equals("")) {
+    		minMax.setFirst(null);
+    		minMax.setLast(null);
+    		return minMax;
+    	}
+    	
+    	return minMax;
     }
     
     private void iterateSubtree(AVLNode Node, MyList<MyList<String>> listOflists, int depthOflevel) {
     	
     	if(Node != null) {
-    		
-    		//System.out.println("about to add the right subtree : " + Node.element);
+
     		
     		 listOflists.get(depthOflevel).add(Node.element);
     		 
@@ -259,19 +352,19 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	int num = height(this.root) +1;
     	MyList<MyList<String>> listOflists = new MyListImpl<MyList<String>>();
     	
+    	//forcing Java to do what I want.
     	for(int i = 0; i < num; i++) {
     		
-    		String[] arr = new String[50];
+    		String[] arr = new String[capacity];
     		
-    		MyList<String> list = new MyListImpl<String>(arr, 0, 50);
+    		MyList<String> list = new MyListImpl<String>(arr, 0);
     		
     		listOflists.add(list);
     	}
     	
     	AVLNode treeIter = this.root;
-    	//root.parent = null;
     	
-    	System.out.println("The root is  : " + treeIter.element);
+    	//System.out.println("The root is  : " + treeIter.element);
     	
     	int depthOflevel = 0;
     	
