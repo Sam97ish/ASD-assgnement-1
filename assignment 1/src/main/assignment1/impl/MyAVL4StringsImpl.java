@@ -6,17 +6,18 @@ import main.assignment1.MyList;
 
 public class MyAVL4StringsImpl implements MyAVL4Strings {
 	
-	private static final int ALLOWED_IMBALANCE = 1;
+	private static final int ALLOWED_IMBALANCE = 1; //for insertion
 	private AVLNode root;
 	
-	private static final int capacity = 500; //for the last method only
-	
+	private static final int capacity = 20000; //for the last method only
+	//AUGMENT CAPACITY HERE AND IN MyListImpl IN CASE OF BOUNDS ERRORS DURING TESTING.
 	
 	//Constructor
 	public MyAVL4StringsImpl(){
 		root = null;
 	}
 	
+	//nested Node Class.
 	private static class AVLNode{
 		
 		String element; //the data.
@@ -37,13 +38,19 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 
 	}
 	
-	// to handle when the node is null.
+	/**
+	 * @role: to handle when the node is null.
+	 * @complexity: O(1).
+	 */
 	private int height(AVLNode t) {
 		return t==null ? -1 : t.height;
 	}
 	
 
-	//left-left single rotation.
+	/**
+	 * @role: left-left rotation.
+	 * @complexity: O(1).
+	 */
 	private AVLNode rotateWithLeftChild(AVLNode node) {
 		AVLNode leftChild = node.left;
 		node.left = leftChild.right;
@@ -57,7 +64,10 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		return leftChild;
 	}
 	
-	//right-right single rotation
+	/**
+	 * @role: right-right rotation.
+	 * @complexity: O(1).
+	 */
 	private AVLNode rotateWithRightChild(AVLNode node) {
 		AVLNode RightChild = node.right;
 		node.right = RightChild.left;
@@ -71,21 +81,30 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		return RightChild;
 	}
 	
-	//double rotation : left child.
+	/**
+	 * @role: double rotation with the left child.
+	 * @complexity: O(1).
+	 */
 	private AVLNode doubleWithLeftChild(AVLNode node) {
 		
 		node.left = rotateWithRightChild(node.left);
 		return rotateWithLeftChild(node);
 	}
 	
-	//double rotation : right child.
+	/**
+	 * @role: double rotation with the right child.
+	 * @complexity: O(1).
+	 */
 	private AVLNode doubleWithRightChild(AVLNode node) {
 		
 		node.right = rotateWithLeftChild(node.right);
 		return rotateWithRightChild(node);
 	}
 	
-	//balance the Avl tree after an insertion assuming node is either balanced or within one of being balanced.
+	/**
+	 * @role: balances the tree when the imbalance is greater than 1.
+	 * @complexity: O(1).
+	 */
 	private AVLNode balance(AVLNode node) {
 		
 		if(node == null) {
@@ -120,7 +139,10 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 		
 	}
 	
-	//inserts elm into tree after finding a suitable place and balances the tree afterwards.
+	/**
+	 * @role: helper to the public insert, inserts an element in the tree after finding a proper place.
+	 * @complexity: O(LogN).
+	 */
 	private AVLNode insert(String elm, AVLNode node) {
 		
 		if(node == null) {
@@ -145,30 +167,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 
 		return balance(node);
 	}
-	
-	//prints out the whole tree using inorder traversal.
-	private void printInOrder(AVLNode root) {
-		if(root != null) {
-			printInOrder(root.left);
-			System.out.println(root.element);
-			printInOrder(root.right);
-		}
-	}
-	
-	//prints out the whole tree using postorder traversal.
-	private void printPostOrder(AVLNode root) {
-		if(root != null) {
-			printInOrder(root.left);
-			printInOrder(root.right);
-			System.out.println(root.element);
-		}
-	}
-	
-	//printing out the tree using the specified traversal.
-	public void printTree() {
-		printInOrder(root);
-		//printPostOrder(root);
-	}
+
 	
     /*
      * @role: inserts element into the AVL tree and rebalances if necessary.
@@ -179,7 +178,15 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 	// TODO Auto-generated method stub
     	this.root = insert(element,root);
     }
-
+    
+    /**
+     * @role: helper for partialSearch, searches for the min and the max of a given beginning by comparing and excluding at most half of the tree with each call.
+     * @param minMax : the couple that has min in first and max in last.
+     * @param left : pointer to the left of the previous node.
+     * @param right : pointer to the right of the previous node.
+     * @param beginning : the string given.
+     * @complexity: O(LogN), as we exclude one side of the tree each time, and go as far as the height of the AVL tree which is LogN.
+     */
     private void searchMinMax(Couple<String> minMax, AVLNode left, AVLNode right, String beginning) {
     	
     	if(left != null){
@@ -272,6 +279,12 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
     }
     
+    /**
+     * @role: searches for the min and the max that start with the given string inside the AVL tree.
+     * @param beginning: the string given.
+     * @complexity: O(LogN), all the work is constant, ignoring the complexities of the methods of the String class.
+     * the complexity is O(logN) since it calls the searchMinMax method.
+     */
     @Override
     public Couple<String> partialSearch(String beginning) {
 	// TODO Auto-generated method stub
@@ -323,6 +336,15 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	return minMax;
     }
     
+    /**
+     * @role: helper to the getLevelByLevelLists method. visits each node once to add it to it's corresponding list using it's depthOFlevel
+     * then call itself to it's left subtree and right subtree if they exist.
+     * @param Node : the node visited.
+     * @param listOflists : the list of lists of strings.
+     * @param depthOflevel : the depth of this node.
+     * @complexity: O(N), since each node is visited once without backtracking, AND the list of lists is implemented with
+     * an array so the .get() method is O(1) and add() adds to the end of the array so O(1).
+     */
     private void iterateSubtree(AVLNode Node, MyList<MyList<String>> listOflists, int depthOflevel) {
     	
     	if(Node != null) {
@@ -344,7 +366,10 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
     }
     
-    
+    /**
+     * @role: visits each node once to add it to its corresponding list.
+     * @complexity: O(N), since it calls the iterateTree method.
+     */
     @Override
     public MyList<MyList<String>> LevelByLevelLists() {
 	// TODO Auto-generated method stub
@@ -353,7 +378,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	MyList<MyList<String>> listOflists = new MyListImpl<MyList<String>>();
     	
     	//forcing Java to do what I want.
-    	for(int i = 0; i < num; i++) {
+    	for(int i = 0; i < num; i++) { //this is O(height+1) but is sequential with O(N).
     		
     		String[] arr = new String[capacity];
     		
@@ -372,7 +397,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     		
     		//System.out.println("treeIter is now on: " + treeIter.element);
     		
-    		listOflists.get(depthOflevel).add(treeIter.element);
+    		listOflists.get(depthOflevel).add(treeIter.element); //adds to the end of the array so O(1).
     		
     		if(treeIter.left != null) {
     			iterateSubtree(treeIter.left, listOflists, depthOflevel + 1);
@@ -389,4 +414,40 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
 	return listOflists;
     }
+    
+	
+	/**
+	 * @role: prints the tree in order.
+	 * @param root
+	 * @complexity: O(N).
+	 */
+	private void printInOrder(AVLNode root) {
+		if(root != null) {
+			printInOrder(root.left);
+			System.out.println(root.element);
+			printInOrder(root.right);
+		}
+	}
+	
+	/**
+	 * @role: prints the tree in postorder.
+	 * @param root
+	 * @complexity: O(N).
+	 */
+	private void printPostOrder(AVLNode root) {
+		if(root != null) {
+			printInOrder(root.left);
+			printInOrder(root.right);
+			System.out.println(root.element);
+		}
+	}
+	
+	/**
+	 * @role: prints the tree using the specified traversal in the body.
+	 * @complexity: O(N).
+	 */
+	public void printTree() {
+		printInOrder(root);
+		//printPostOrder(root);
+	}
 }

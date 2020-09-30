@@ -9,10 +9,21 @@ public class main {
 
 	public static void main(String[] args) {
 		
+		//INCASE OF ANY OUTOFBOUNDS ERRORS DURING COMPLEXITY TESTINGS !
+		//CHANGE THE CAPACITY OF THE ARRAYS IN MyAVL4StringsImpl and MyListImpl.
+		
 		MyAVL4StringsImpl AVLtree = new MyAVL4StringsImpl();
 		
+		/*
+		 * Some tests here are provided.
+		 * first four test each rotation in the insert method as well as the LevelByLevel method.
+		 * last one tests the partialSearch method.
+		 * uncomment each test and try it separately.
+		 */
 		
-		//testing the insert functionality.
+//==========================================================================================================================
+		//Test 1.
+		
 		/*
 		System.out.println("this should perform left double rotation: expected inorder traversal : B C D E S");
 		AVLtree.insert("E"); //should be root
@@ -49,8 +60,11 @@ public class main {
 			}
 			
 		}
-		
 		*/
+		
+		
+//==========================================================================================================================
+		//Test 2.
 		
 		/*
 		System.out.println("this should perform left single rotation: expected inorder traversal : A B D E S");
@@ -81,6 +95,9 @@ public class main {
 		}
 		*/
 		
+//==========================================================================================================================
+		//Test 3.
+		
 		/*
 		System.out.println("this should perform right single rotation: expected inorder traversal : V W X Y Z");
 		AVLtree.insert("W"); //should be root
@@ -108,8 +125,11 @@ public class main {
 			}
 			
 		}
-		
 		*/
+		
+
+//==========================================================================================================================		
+		//Test 4.
 		
 		/*
 		System.out.println("this should perform right double rotation: expected inorder traversal : S T W X Y");
@@ -140,7 +160,9 @@ public class main {
 			
 		}
 		*/
-		
+
+//==========================================================================================================================
+		//Test 4.1.
 		
 		//testing the list implementation.
 		/*
@@ -160,13 +182,10 @@ public class main {
 		System.out.println(mylistlist.get(0).get(2));
 		*/
 		
-		//String a = "Jonna"; //node
-		//String b = "Jon";
+//==========================================================================================================================
+		//Test 5.
 		
-		//System.out.println(a.compareTo(b));
-		//System.out.println(a.startsWith("Jon"));
-		
-		
+		/*
 		MyAVL4StringsImpl tree = new MyAVL4StringsImpl();
 		// Be careful, this tree contains the same element but it does not have the same
 		// structure as the tree in the figure!
@@ -209,6 +228,7 @@ public class main {
 		System.out.println(duple.getFirst());
 		System.out.println(duple.getLast());
 		
+		*/
 	}
 
 }
