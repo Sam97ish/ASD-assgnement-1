@@ -389,7 +389,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
     	AVLNode treeIter = this.root;
     	
-    	//System.out.println("The root is  : " + treeIter.element);
+    	System.out.println("The root is  : " + treeIter.element);
     	
     	int depthOflevel = 0;
     	
