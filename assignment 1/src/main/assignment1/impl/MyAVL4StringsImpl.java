@@ -9,7 +9,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 	private static final int ALLOWED_IMBALANCE = 1; //for insertion
 	private AVLNode root;
 	
-	private static final int capacity = 20000; //for the last method only
+	private static final int capacity = 49999999; //for the last method only
 	//AUGMENT CAPACITY HERE AND IN MyListImpl IN CASE OF BOUNDS ERRORS DURING TESTING.
 	
 	//Constructor
@@ -345,7 +345,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
      * @complexity: O(N), since each node is visited once without backtracking, AND the list of lists is implemented with
      * an array so the .get() method is O(1) and add() adds to the end of the array so O(1).
      */
-    private void iterateSubtree(AVLNode Node, MyList<MyList<String>> listOflists, int depthOflevel) {
+    private void iterateSubtree(AVLNode Node, MyListImpl<MyListImpl<String>> listOflists, int depthOflevel) {
     	
     	if(Node != null) {
 
@@ -375,21 +375,21 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
 	// TODO Auto-generated method stub
     	
     	int num = height(this.root) +1;
-    	MyList<MyList<String>> listOflists = new MyListImpl<MyList<String>>();
+    	MyListImpl<MyListImpl<String>> listOflists = new MyListImpl<MyListImpl<String>>();
     	
     	//forcing Java to do what I want.
     	for(int i = 0; i < num; i++) { //this is O(height+1) but is sequential with O(N).
     		
     		String[] arr = new String[capacity];
     		
-    		MyList<String> list = new MyListImpl<String>(arr, 0);
+    		MyListImpl<String> list = new MyListImpl<String>(arr, 0);
     		
-    		listOflists.add(list);
+    		 listOflists.add(list);
     	}
     	
     	AVLNode treeIter = this.root;
     	
-    	System.out.println("The root is  : " + treeIter.element);
+    	//System.out.println("The root is  : " + treeIter.element);
     	
     	int depthOflevel = 0;
     	
@@ -410,9 +410,14 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     		
     	}
     	
+    	MyListImpl<MyList<String>> listToReturn = new  MyListImpl<MyList<String>>();
+    	for(int i =0; i<listOflists.size();i++) {
+    		MyList<String> ls = ((MyList<String>) listOflists.get(i));
+    		listToReturn.add(ls);
+    	}
     	
     	
-	return listOflists;
+	return listToReturn;
     }
     
 	

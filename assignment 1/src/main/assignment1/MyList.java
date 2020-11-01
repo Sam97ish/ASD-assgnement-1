@@ -6,5 +6,4 @@ public interface MyList<E> {
     
     public int size(); //returns the number of elements in the list
     
-    public void add(E elm); //adds the element to the end of the list.
 }

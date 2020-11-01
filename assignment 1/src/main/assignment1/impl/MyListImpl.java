@@ -1,11 +1,11 @@
 package main.assignment1.impl;
 
-import main.assignment1.MyList;
+import main.assignment1.*;
 
-public class MyListImpl<E> implements MyList<E> {
+public class MyListImpl<E> implements MyList<E>,MyAddList<E> {
 	private E[] array;
 	private int size;
-	private static final int capacity = 20000;
+	private static final int capacity = 49999999;
 	//AUGMENT CAPACITY HERE AND IN MyAVL4StringsImpl IN CASE OF BOUNDS ERRORS DURING TESTING.
 	
 	//Constructor

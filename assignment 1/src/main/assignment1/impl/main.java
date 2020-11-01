@@ -9,8 +9,7 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		//INCASE OF ANY OUTOFBOUNDS ERRORS DURING COMPLEXITY TESTINGS !
-		//CHANGE THE CAPACITY OF THE ARRAYS IN MyAVL4StringsImpl and MyListImpl.
+
 		
 		MyAVL4StringsImpl AVLtree = new MyAVL4StringsImpl();
 		
@@ -60,8 +59,8 @@ public class main {
 			}
 			
 		}
-		*/
 		
+		*/
 		
 //==========================================================================================================================
 		//Test 2.
@@ -125,8 +124,8 @@ public class main {
 			}
 			
 		}
-		*/
 		
+		*/
 
 //==========================================================================================================================		
 		//Test 4.
@@ -227,8 +226,8 @@ public class main {
 		
 		System.out.println(duple.getFirst());
 		System.out.println(duple.getLast());
-		
 		*/
+		
 	}
 
 }
