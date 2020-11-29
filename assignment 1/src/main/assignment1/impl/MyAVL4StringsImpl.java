@@ -3,15 +3,14 @@ package main.assignment1.impl;
 import main.assignment1.Couple;
 import main.assignment1.MyAVL4Strings;
 import main.assignment1.MyList;
+import main.assignment1.myqueue;
 
 public class MyAVL4StringsImpl implements MyAVL4Strings {
 	
 	private static final int ALLOWED_IMBALANCE = 1; //for insertion
 	private AVLNode root;
-	
-	private static final int capacity = 49999999; //for the last method only
-	//AUGMENT CAPACITY HERE AND IN MyListImpl IN CASE OF BOUNDS ERRORS DURING TESTING.
-	
+
+
 	//Constructor
 	public MyAVL4StringsImpl(){
 		root = null;
@@ -366,6 +365,10 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     	
     }
     
+    public boolean isChild(AVLNode node) {
+    	return height(node) == 0;
+    }
+    
     /**
      * @role: visits each node once to add it to its corresponding list.
      * @complexity: O(N), since it calls the iterateTree method.
@@ -373,51 +376,62 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     @Override
     public MyList<MyList<String>> LevelByLevelLists() {
 	// TODO Auto-generated method stub
+        int currentLevel = 0;
+        int nextLevel = 2;
+        
+    	myqueue<AVLNode> treeIterator = new myqueueImpl<>();
+    	myqueue<AVLNode> nodesOrder = new myqueueImpl<>();
+    	MyListImpl<MyList<String>> lsOfls = new MyListImpl<>();
+    	MyListImpl<String> ls = new MyListImpl<>();
     	
-    	int num = height(this.root) +1;
-    	MyListImpl<MyListImpl<String>> listOflists = new MyListImpl<MyListImpl<String>>();
+    	treeIterator.enqueue(root);
     	
-    	//forcing Java to do what I want.
-    	for(int i = 0; i < num; i++) { //this is O(height+1) but is sequential with O(N).
-    		
-    		String[] arr = new String[capacity];
-    		
-    		MyListImpl<String> list = new MyListImpl<String>(arr, 0);
-    		
-    		 listOflists.add(list);
-    	}
+    	boolean lastListadded = false;
     	
-    	AVLNode treeIter = this.root;
-    	
-    	//System.out.println("The root is  : " + treeIter.element);
-    	
-    	int depthOflevel = 0;
-    	
-    	if(treeIter != null) {
+    	//adding all the nodes in order to the queue nodesOrder.
+    	while(!treeIterator.isEmpty()) {
+    		lastListadded = false;
     		
-    		//System.out.println("treeIter is now on: " + treeIter.element);
+    		AVLNode node = treeIterator.dequeue();
     		
-    		listOflists.get(depthOflevel).add(treeIter.element); //adds to the end of the array so O(1).
-    		
-    		if(treeIter.left != null) {
-    			iterateSubtree(treeIter.left, listOflists, depthOflevel + 1);
+    		if(node == null) {//we reached a child.
+    			;
+    		}else { //add to ls.
+    			
+    			ls.add(node.element);
+    			
+    			//check if node has subtrees.
+    			
+        		if(node.left != null) {
+        			treeIterator.enqueue(node.left);
+        		}else if(!isChild(node)){ //if the node has right subtree.
+        			treeIterator.enqueue(null); //padding to keep the queue consistent.
+        		}
+        		
+        		if(node.right != null) {
+        			treeIterator.enqueue(node.right);
+        		}else if(!isChild(node)) { //if the node has left subtree.
+        			treeIterator.enqueue(null);
+        		}
     		}
     		
-    		if(treeIter.right != null) {
-    			iterateSubtree(treeIter.right, listOflists, depthOflevel + 1);
-    		}
+    		currentLevel++;
     		
+            if (currentLevel == nextLevel - 1){
+                lsOfls.add((MyList<String>) ls);
+                nextLevel *= 2;
+                lastListadded = true;
+                ls = new MyListImpl<>();
+       
+            }
+
     		
     	}
     	
-    	MyListImpl<MyList<String>> listToReturn = new  MyListImpl<MyList<String>>();
-    	for(int i =0; i<listOflists.size();i++) {
-    		MyList<String> ls = ((MyList<String>) listOflists.get(i));
-    		listToReturn.add(ls);
+    	if(!lastListadded) {//makes sure that the last level is added in case the tree is heavily one sided.
+    	 lsOfls.add((MyList<String>) ls);
     	}
-    	
-    	
-	return listToReturn;
+    	return (MyList<MyList<String>>) lsOfls;
     }
     
 	

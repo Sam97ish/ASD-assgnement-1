@@ -1,5 +1,11 @@
 package main.assignment1.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
 import org.junit.jupiter.api.Assertions;
 
 import main.assignment1.*;
@@ -14,7 +20,7 @@ public class main {
 		MyAVL4StringsImpl AVLtree = new MyAVL4StringsImpl();
 		
 		/*
-		 * Some tests here are provided.
+		 *
 		 * first four test each rotation in the insert method as well as the LevelByLevel method.
 		 * last one tests the partialSearch method.
 		 * uncomment each test and try it separately.
@@ -44,7 +50,7 @@ public class main {
 		
 				
 		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
-		
+		System.out.println("\n"+ mylistlist.size());
 		for(int i = 0; i < mylistlist.size(); i++) {
 			
 			MyList<String> mylisty = mylistlist.get(i);
@@ -165,7 +171,7 @@ public class main {
 		
 		//testing the list implementation.
 		/*
-		MyList<String> mylist = new MyListImpl<String>();
+		MyListImpl<String> mylist = new MyListImpl<String>();
 		
 		mylist.add("hi");
 		System.out.println(mylist.get(0));
@@ -175,12 +181,12 @@ public class main {
 		
 		System.out.println(mylist.get(mylist.size()-1));
 		
-		MyList<MyList<String>> mylistlist = new MyListImpl<MyList<String>>();
+		MyListImpl<MyListImpl<String>> mylistlist = new MyListImpl<MyListImpl<String>>();
 		mylistlist.add(mylist);
 		mylistlist.get(0).add("will this work?");
 		System.out.println(mylistlist.get(0).get(2));
-		*/
 		
+		*/
 //==========================================================================================================================
 		//Test 5.
 		
@@ -227,6 +233,112 @@ public class main {
 		System.out.println(duple.getFirst());
 		System.out.println(duple.getLast());
 		*/
+	
+		/*
+		 //fail for partial search ?
+		  
+		MyAVL4StringsImpl tree = new MyAVL4StringsImpl();
+		tree.insert("aad");
+		tree.insert("aae");
+		tree.insert("aac");
+		tree.insert("aaa");
+		tree.insert("aab");
+		
+		System.out.println(tree.partialSearch("a").getFirst());
+		System.out.println(tree.partialSearch("a").getLast());
+		 
+		 */
+		
+		
+		/*
+		MyListImpl<Integer> ls = new MyListImpl<>();
+		
+		for(int i = 0; i< 5; i++) {
+			ls.add(i+1);
+		}
+		System.out.println(ls.size());
+		for(int i = 0; i< 5; i++) {
+			System.out.println(ls.get(i));
+		}
+		*/
+		
+		/*
+		myqueueImpl<Integer> ls = new myqueueImpl<>();
+		
+		for(int i = 5; i>-1; i--) {
+			ls.enqueue(i);
+		}
+		System.out.println(ls.isEmpty());
+		for(int i = 0; i< 5; i++) {
+			System.out.println(ls.dequeue());
+		}
+		*/
+		
+		/*
+		System.out.println("stress testing level by level");
+		
+		for(int i = 0; i < 2000000; i++) {
+			AVLtree.insert( "" +  i + "");
+		}
+		
+		//AVLtree.printTree();
+		
+				
+		MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
+		System.out.println("\n"+ mylistlist.size());
+		for(int i = 0; i < mylistlist.size(); i++) {
+			
+			MyList<String> mylisty = mylistlist.get(i);
+			
+			System.out.println("\n");
+			System.out.println("The Elements of level  " + i + " are : ");
+			
+			for(int k = 0; k < mylisty.size(); k++) {
+			
+				System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
+			
+			}
+			
+			
+			
+		}
+		
+		*/
+		    
+			System.out.println("Stress Testing with dictonary.");
+	        File dict = new File("src/stressTest");
+	        Scanner words;
+			try {
+				words = new Scanner(dict);
+		        words.useDelimiter(" ");
+		        String word;
+
+		        while (words.hasNext()) {
+		        	word = words.next();
+		            AVLtree.insert(word);
+		        }
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			MyList<MyList<String>> mylistlist = AVLtree.LevelByLevelLists();
+			System.out.println("\n"+ mylistlist.size());
+			for(int i = 0; i < mylistlist.size(); i++) {
+				
+				MyList<String> mylisty = mylistlist.get(i);
+				
+				System.out.println("\n");
+				System.out.println("The Elements of level  " + i + " are : ");
+				
+				for(int k = 0; k < mylisty.size(); k++) {
+				
+					System.out.println("Element at index  " + k + " is : " + mylisty.get(k) + " and has depth of " + i);
+				
+				}
+				
+			}
 		
 	}
 
