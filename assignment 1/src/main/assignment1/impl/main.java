@@ -233,21 +233,50 @@ public class main {
 		System.out.println(duple.getFirst());
 		System.out.println(duple.getLast());
 		*/
-	
+		
+		/*
+		MyAVL4StringsImpl tree = new MyAVL4StringsImpl();
+		tree.insert("aaaa");
+		tree.insert("aaab");
+		tree.insert("aaac");
+		tree.insert("aaad");
+		tree.insert("aaae");
+		tree.insert("aaaz");
+		
+		Couple<String> cpl = new CoupleImpl();
+		
+		cpl = tree.partialSearch("a");
+		
+		System.out.println(cpl.getFirst());
+		System.out.println(cpl.getLast());
+		*/
+		
 		/*
 		 //fail for partial search ?
-		  
 		MyAVL4StringsImpl tree = new MyAVL4StringsImpl();
-		tree.insert("aad");
-		tree.insert("aae");
-		tree.insert("aac");
-		tree.insert("aaa");
-		tree.insert("aab");
+		System.out.println("Stress Testing with dictonary.");
+        File dict = new File("src/1000.words");
+        Scanner words;
+		try {
+			words = new Scanner(dict);
+	        //words.useDelimiter(" \n\r");
+	        String word;
+
+	        while (words.hasNext()) {
+	        	word = words.nextLine();
+	        	tree.insert(word);
+	        }
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		System.out.println(tree.partialSearch("a").getFirst());
 		System.out.println(tree.partialSearch("a").getLast());
-		 
 		 */
+		
 		
 		
 		/*
@@ -304,6 +333,8 @@ public class main {
 		}
 		
 		*/
+		
+		/*
 		    
 			System.out.println("Stress Testing with dictonary.");
 	        File dict = new File("src/stressTest");
@@ -339,7 +370,7 @@ public class main {
 				}
 				
 			}
-		
+		*/
 	}
 
 }

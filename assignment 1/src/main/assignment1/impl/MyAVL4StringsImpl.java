@@ -256,7 +256,7 @@ public class MyAVL4StringsImpl implements MyAVL4Strings {
     				}
     				
     				//continue to the right.
-    				searchMinMax(minMax, right.right, null, beginning);
+    				searchMinMax(minMax, null, right.right, beginning);
     				
     			}
     			
