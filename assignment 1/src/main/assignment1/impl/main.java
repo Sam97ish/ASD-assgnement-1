@@ -255,7 +255,7 @@ public class main {
 		 //fail for partial search ?
 		MyAVL4StringsImpl tree = new MyAVL4StringsImpl();
 		System.out.println("Stress Testing with dictonary.");
-        File dict = new File("src/1000.words");
+        File dict = new File("src/1000.words2");
         Scanner words;
 		try {
 			words = new Scanner(dict);
@@ -334,14 +334,14 @@ public class main {
 		
 		*/
 		
-		/*
+		
 		    
 			System.out.println("Stress Testing with dictonary.");
-	        File dict = new File("src/stressTest");
+	        File dict = new File("src/1000.words2");
 	        Scanner words;
 			try {
 				words = new Scanner(dict);
-		        words.useDelimiter(" ");
+		        //words.useDelimiter(" \n\r");
 		        String word;
 
 		        while (words.hasNext()) {
@@ -370,7 +370,7 @@ public class main {
 				}
 				
 			}
-		*/
+		
 	}
 
 }
